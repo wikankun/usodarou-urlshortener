@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>URL Shortener</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="form">
+        <form action="/api/shorturl/new" method="POST">
+            <label for="url_input"><p class="message">URL to be shortened:</p></label>
+            <input id="url_input" type="text" name="url" value="https://www.google.com">
+            <input class="submit-btn" type="submit" value="Shorten URL">
+        </form>
+    </div>
+
+</div>
+{% endblock %}
