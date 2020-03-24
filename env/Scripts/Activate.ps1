@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="E:\Repositories\boilerplate-project-urlshortener\env"
+$env:VIRTUAL_ENV="E:\Repositories\usodarou-urlshortener\env"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name

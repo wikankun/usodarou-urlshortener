@@ -1,70 +1,48 @@
-/****** Main Styling ******/
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	color: #222;
-	background-color: #FaFaFa;
+	color: black;
+	background-color: white;
 	text-align: center;
-	line-height: 1.4em;
 }
-
 header {
-  background-color: darkgreen;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  background-color: navy;
+  padding-top: 50px;
+  padding-bottom: 50px;
   text-align: center;
   font-size: 24px;
-  color: #DAE9BC;
-  position: fixed;
-  left: 0;
-  top: 0;
+  color: white;
   width: 100%;
 }
-
 footer {
-  background-color: #DAE9BC;
-  padding: 10px;
+  background-color: navy;
+  padding-top: 10px;
+  padding-bottom: 10px;
   text-align: center;
-  color: green;
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  color: white;
   width: 100%;
 }
-
+footer a {
+  color: white;
+}
 .container {
-	padding: 0;
-	margin-top: 300px;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
-
-code {
-  font-family: monospace;
-  padding: 2px;
-  color: black;
-  background-color: #fff;
-}
-
-a {
-  color: darkgreen;
-  margin-bottom: 20px;
-}
-
 .form {
   position: relative;
-  z-index: 1;
-  background: #FFFFFF;
+  background: whitesmoke;
   max-width: 360px;
-  margin: 0 auto 100px;
+  margin: 0 auto;
   padding: 45px;
   text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form input {
   font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
+  background: lightgray;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
@@ -74,23 +52,14 @@ a {
   text-align: center;
 }
 .form .submit-btn {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
+  background: navy;
   width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  color: white;
   cursor: pointer;
 }
 .form .submit-btn:hover,.form .submit-btn:active,.form .submit-btn:focus {
-  background: #43A047;
+  background: rgb(5, 5, 145);
 }
-
-.generated-link {
-  margin: 15px;
+#generated-url {
+  margin-bottom: 20px;
 }

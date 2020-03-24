@@ -6,9 +6,12 @@
 
 {% block body %}
 <div class="container">
-    <h2>Here's your shortened URL:</h2>
-    <a href="{{data}}" class="generated-link">{{data}}</a>
-    <br><br>
-    <a href="{{request.url_root}}" class="home-btn">Home</a>
+    <div class="form">
+        <div id="generated-url">
+            <p class="message">Here's your shortened URL:</p>
+            <a href="{{data}}">{{data}}</a>
+        </div>
+        <a href="{{request.url_root}}" class="home-btn">Home</a>
+    </div>
 </div>
 {% endblock %}
