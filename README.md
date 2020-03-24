@@ -5,7 +5,7 @@
 
 ### This Project URL:
 
-https://wikankun-urlshortener.glitch.me
+http://usodarou-urlshortener.glitch.me/
 
 ### API Documentation:
 
