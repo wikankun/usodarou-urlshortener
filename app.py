@@ -69,10 +69,10 @@ def get_links():
     result = links_schema.dump(all_links)
     return jsonify(result)
 
-@app.route('/api/shorturl/<url>', methods=['GET'])
-def get_link(url):
+@app.route('/api/shorturl/<code>', methods=['GET'])
+def get_link(code):
     try:
-        link_data = Link.query.filter_by(shortened_url=url).first()
+        link_data = Link.query.filter_by(shortened_url=code).first()
         link = link_schema.jsonify(link_data)
         the_link = link.json['original_url']
         return redirect(the_link)
