@@ -17,15 +17,17 @@ class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     shortened_url = db.Column(db.String(200), nullable=False)
     original_url = db.Column(db.String(200), nullable=False)
+    times_accessed = db.Column(db.Integer, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, original_url):
         self.original_url = original_url
         random.seed(self.id)
         self.shortened_url = self.randomStringDigits()
+        self.times_accessed = 0
 
     def __repr__(self):
-        return '<URL %r> = %r'.format(self.id, self.shortened_url)
+        return '<URL {}> = {}'.format(self.id, self.shortened_url)
 
     @classmethod
     def randomStringDigits(self, length=6):
@@ -34,18 +36,41 @@ class Link(db.Model):
 
 class LinkSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'shortened_url', 'original_url', 'date_created')
+        fields = ('id', 'shortened_url', 'original_url', 'times_accessed', 'date_created')
 
 # init schema
 link_schema = LinkSchema()
 links_schema = LinkSchema(many=True)
 
+'''
+Below are the code to consume API
+'''
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/api/shorturl/new', methods=['POST'])
+@app.route('/create', methods=['POST'])
 def create():
+    resp = create_link()
+    if resp.status_code == 201:
+        return render_template('success.html', data=resp.json['final_url'])
+    else:
+        return resp
+
+@app.route('/<code>', methods=['GET'])
+def get(code):
+    resp = get_link(code)
+    if resp.status_code == 201:
+        return redirect(resp.json['original_url'])
+    else:
+        return resp
+
+
+'''
+Below are API code
+'''
+@app.route('/api/shorturl/new', methods=['POST'])
+def create_link():
     link = request.form['url']
 
     if validators.url(link):
@@ -53,31 +78,61 @@ def create():
         try:
             db.session.add(new_link)
             db.session.commit()
-            # return link_schema.jsonify(new_link)
             data = link_schema.jsonify(new_link)
+
+            data = data.json
             base_url = request.url_root
-            final_data = str(base_url)+'api/shorturl/'+str(data.json['shortened_url'])
-            return render_template('success.html', data=final_data)
+            final_url = str(base_url)+'api/shorturl/'+str(data['shortened_url'])
+            final_data = {
+                'url': data,
+                'final_url': final_url
+            }
+            return make_response(jsonify(final_data), 201)
         except:
-            return json.jsonify(error = 'invalid URL')
+            db.session.rollback()
+            db.session.remove()
+            return make_response(jsonify(error = 'Oops something went wrong'), 400)
     else:
-        return json.jsonify(error = 'invalid URL')
+        return make_response(jsonify(error = 'Invalid URL'), 400)
 
 @app.route('/api/shorturl/', methods=['GET'])
 def get_links():
     all_links = Link.query.all()
     result = links_schema.dump(all_links)
-    return jsonify(result)
+    return make_response(jsonify(result), 200)
 
 @app.route('/api/shorturl/<code>', methods=['GET'])
 def get_link(code):
     try:
-        link_data = Link.query.filter_by(shortened_url=code).first()
-        link = link_schema.jsonify(link_data)
-        the_link = link.json['original_url']
-        return redirect(the_link)
+        link = Link.query.filter_by(shortened_url=code).first()
+
+        link.times_accessed += 1
+        db.session.commit()
+
+        data = link_schema.jsonify(link)
+        return make_response(data, 200)
     except:
-        return json.jsonify(error = 'invalid URL')
+        return make_response(jsonify(error = 'Not found'), 404)
+
+@app.route('/api/shorturl/<code>', methods=['PUT'])
+def edit_link(code):
+    try:
+        link = Link.query.filter_by(shortened_url=code).first()
+
+        link.shortened_url = request.form['url']
+        db.session.commit()
+
+        data = link_schema.jsonify(link)
+        data = data.json
+        base_url = request.url_root
+        final_url = str(base_url)+'api/shorturl/'+str(data['shortened_url'])
+        final_data = {
+            'url': data,
+            'final_url': final_url
+        }
+        return make_response(jsonify(final_data), 200)
+    except:
+        return make_response(jsonify(error = 'Not found'), 404)
 
 if __name__ == '__main__':
     app.run(debug=True)
