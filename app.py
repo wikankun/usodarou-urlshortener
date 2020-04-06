@@ -60,7 +60,7 @@ def create():
 @app.route('/<code>', methods=['GET'])
 def get(code):
     resp = get_link(code)
-    if resp.status_code == 201:
+    if resp.status_code == 200:
         return redirect(resp.json['original_url'])
     else:
         return resp
@@ -82,7 +82,7 @@ def create_link():
 
             data = data.json
             base_url = request.url_root
-            final_url = str(base_url)+'api/shorturl/'+str(data['shortened_url'])
+            final_url = str(base_url)+str(data['shortened_url'])
             final_data = {
                 'url': data,
                 'final_url': final_url
@@ -125,7 +125,7 @@ def edit_link(code):
         data = link_schema.jsonify(link)
         data = data.json
         base_url = request.url_root
-        final_url = str(base_url)+'api/shorturl/'+str(data['shortened_url'])
+        final_url = str(base_url)+str(data['shortened_url'])
         final_data = {
             'url': data,
             'final_url': final_url
