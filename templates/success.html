@@ -7,11 +7,13 @@
 {% block body %}
 <div class="container">
     <div class="form">
-        <div id="generated-url">
-            <p class="message">Here's your shortened URL:</p>
-            <a href="{{data}}">{{data}}</a>
-        </div>
-        <a href="{{request.url_root}}" class="home-btn">Home</a>
+        <p class="message">Here's your shortened URL:</p>
+        <input id="url_input" type="text" name="url" value="{{data}}">
+
+        <a href="{{data}}" class="button">Open URL</a>
+        <a href="{{data}}/detail" class="button">Details</a>
+        <a href="{{data}}/edit" class="button">Edit URL</a>
+        <a href="{{request.url_root}}" class="button">Home</a>
     </div>
 </div>
 {% endblock %}
