@@ -34,11 +34,20 @@ footer a {
 .form {
   position: relative;
   background: whitesmoke;
-  max-width: 360px;
+  min-width: 360px;
+  width: 600px;
   margin: 0 auto;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form .message {
+  margin: 0 0 15px;
+}
+.form .info {
+  margin: 0 0 15px;
+  text-align: left;
+  border: 0;
 }
 .form input {
   font-family: "Roboto", sans-serif;
@@ -59,6 +68,22 @@ footer a {
 }
 .form .submit-btn:hover,.form .submit-btn:active,.form .submit-btn:focus {
   background: rgb(5, 5, 145);
+}
+.button {
+  background: navy;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin: 0 0 15px;
+  cursor: pointer;
+  width: 20%;
+  min-width: 100px;
 }
 #generated-url {
   margin-bottom: 20px;

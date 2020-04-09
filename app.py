@@ -47,7 +47,8 @@ Below are the code to consume API
 '''
 @app.route('/')
 def index():
-    return render_template('index.html')
+    resp = get_links()
+    return render_template('index.html', data=resp.json[-1]['id'])
 
 @app.route('/create', methods=['POST'])
 def create():
@@ -61,10 +62,34 @@ def create():
 def get(code):
     resp = get_link(code)
     if resp.status_code == 200:
+        accessed_plus_one(code)
         return redirect(resp.json['original_url'])
     else:
         return resp
 
+@app.route('/<code>/edit', methods=['GET'])
+def edit(code):
+    resp = get_link(code)
+    if resp.status_code == 200:
+        return render_template('edit.html', data=resp.json['shortened_url'])
+    else:
+        return resp
+
+@app.route('/<code>/detail', methods=['GET'])
+def detail(code):
+    resp = get_link(code)
+    if resp.status_code == 200:
+        return render_template('detail.html', data=resp.json)
+    else:
+        return resp
+
+'''
+Below are some specific functions
+'''
+def accessed_plus_one(code):
+    link = Link.query.filter_by(shortened_url=code).first()
+    link.times_accessed += 1
+    db.session.commit()
 
 '''
 Below are API code
@@ -105,16 +130,15 @@ def get_links():
 def get_link(code):
     try:
         link = Link.query.filter_by(shortened_url=code).first()
-
-        link.times_accessed += 1
-        db.session.commit()
-
-        data = link_schema.jsonify(link)
-        return make_response(data, 200)
+        if link != None:
+            data = link_schema.jsonify(link)
+            return make_response(data, 200)
+        else:
+            return make_response(jsonify(error = 'Not found'), 404)
     except:
-        return make_response(jsonify(error = 'Not found'), 404)
+        return make_response(jsonify(error = 'Invalid URL'), 400)
 
-@app.route('/api/shorturl/<code>', methods=['PUT'])
+@app.route('/api/shorturl/<code>', methods=['POST', 'PUT'])
 def edit_link(code):
     try:
         link = Link.query.filter_by(shortened_url=code).first()

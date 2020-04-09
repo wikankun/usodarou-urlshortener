@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>URL Shortener</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="form">
+        <p class="message">Here's your shortened URL:</p>
+        <table class="info">
+            <tr>
+                <td>Created</td>
+                <td>:</td>
+                <td>{{data['date_created'][:10]}}</td>
+            </tr>
+            <tr>
+                <td>Original URL</td>
+                <td>:</td>
+                <td>{{data['original_url']}}</td>
+            </tr>
+            <tr>
+                <td>Shortened URL</td>
+                <td>:</td>
+                <td>{{data['shortened_url']}}</td>
+            </tr>
+            <tr>
+                <td>Accessed</td>
+                <td>:</td>
+                <td>{{data['times_accessed']}}</td>
+            </tr>
+        </table>
+
+        <a href="{{data['original_url']}}" class="button">Open URL</a>
+        <a href="{{request.url_root}}{{data['shortened_url']}}/edit" class="button">Edit URL</a>
+        <a href="{{request.url_root}}" class="button">Home</a>
+    </div>
+</div>
+{% endblock %}
