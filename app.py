@@ -60,7 +60,7 @@ def create():
     if resp.status_code == 201:
         return render_template('success.html', data=resp.json['final_url'])
     else:
-        return resp
+        return render_template('fail.html', data=resp)
 
 @app.route('/<code>', methods=['GET'])
 def get(code):
@@ -69,7 +69,7 @@ def get(code):
         accessed_plus_one(code)
         return redirect(resp.json['original_url'])
     else:
-        return resp
+        return render_template('fail.html', data=resp)
 
 @app.route('/<code>/edit', methods=['GET'])
 def edit(code):
@@ -77,7 +77,16 @@ def edit(code):
     if resp.status_code == 200:
         return render_template('edit.html', data=resp.json['shortened_url'])
     else:
-        return resp
+        return render_template('fail.html', data=resp)
+
+@app.route('/edit', methods=['POST'])
+def edited():
+    code = request.form['code']
+    resp = edit_link(code)
+    if resp.status_code == 200:
+        return render_template('success.html', data=resp.json['final_url'])
+    else:
+        return render_template('fail.html', data=resp)
 
 @app.route('/<code>/detail', methods=['GET'])
 def detail(code):
@@ -85,7 +94,7 @@ def detail(code):
     if resp.status_code == 200:
         return render_template('detail.html', data=resp.json)
     else:
-        return resp
+        return render_template('fail.html', data=resp)
 
 '''
 Below are some specific functions
