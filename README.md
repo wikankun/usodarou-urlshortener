@@ -5,7 +5,7 @@
 
 ### This Project URL:
 
-http://usodarou.glitch.me/
+https://usodarou.glitch.me/
 
 ### API Documentation:
 
