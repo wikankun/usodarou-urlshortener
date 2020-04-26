@@ -48,7 +48,11 @@ Below are the code to consume API
 @app.route('/')
 def index():
     resp = get_links()
-    return render_template('index.html', data=resp.json[-1]['id'])
+    try:
+    	data = resp.json[-1]['id']
+    except:
+    	data = 0
+    return render_template('index.html', data=data)
 
 @app.route('/create', methods=['POST'])
 def create():
