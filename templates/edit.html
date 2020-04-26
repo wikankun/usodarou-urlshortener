@@ -7,8 +7,9 @@
 {% block body %}
 <div class="container">
     <div class="form">
-        <form action="/api/shorturl/{{data}}" method="POST">
+        <form action="/edit" method="POST">
             <input type="hidden" name="_method" value="PUT"/>
+            <input type="hidden" name="code" value="{{data}}"/>
             <label for="url_input"><p class="message">Shortened URL:</p></label>
             <input id="url_input" type="text" name="url" value="{{data}}">
             <input class="submit-btn" type="submit" value="Edit URL">

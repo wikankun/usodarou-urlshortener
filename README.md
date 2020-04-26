@@ -5,7 +5,7 @@
 
 ### This Project URL:
 
-http://usodarou-urlshortener.glitch.me/
+http://usodarou.glitch.me/
 
 ### API Documentation:
 
@@ -17,3 +17,5 @@ http://usodarou-urlshortener.glitch.me/
 
 ![Home Page](/static/img/homepage.png)
 ![Success Page](/static/img/successpage.png)
+![Success Page](/static/img/detailpage.png)
+![Success Page](/static/img/editpage.png)
